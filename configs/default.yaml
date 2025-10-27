@@ -1,0 +1,74 @@
+# Experiment Configuration
+experiment:
+  name: "tinyzero_astarpo"
+  seed: 42
+  log_dir: "./logs"
+  checkpoint_dir: "./checkpoints"
+  save_interval: 100
+  eval_interval: 50
+
+# Model Architecture
+model:
+  vocab_size: 32000
+  hidden_size: 512
+  num_layers: 8
+  num_heads: 8
+  mlp_ratio: 4.0
+  dropout: 0.0
+  max_sequence_length: 512
+
+# A*PO Algorithm Configuration
+astarpo:
+  beta: 0.1
+  num_trajectories: 100
+  num_completions: 20
+  advantage_clip: 1.0
+  gamma: 1.0
+  value_estimation_samples: 100
+  learning_rate: 1e-5
+  max_grad_norm: 1.0
+
+# Training Configuration
+training:
+  total_iterations: 1000
+  batch_size: 32
+  gradient_accumulation_steps: 4
+  warmup_steps: 100
+  weight_decay: 0.01
+  max_trajectory_length: 20
+
+# Environment Configuration
+environments:
+  countdown:
+    target_range: [100, 1000]
+    number_range: [1, 100]
+    max_numbers: 6
+    max_steps: 10
+    allow_negatives: false
+    allow_fractions: false
+    
+  multiplication:
+    operand_range: [10, 99]
+    max_steps: 5
+    require_reasoning: true
+
+# Distributed Training
+distributed:
+  use_fsdp: true
+  mixed_precision: true
+  gradient_checkpointing: true
+  sharding_strategy: "FULL_SHARD"
+  cpu_offload: false
+
+# Logging and Monitoring
+logging:
+  use_wandb: false
+  wandb_project: "tinyzero"
+  wandb_entity: null
+  log_interval: 10
+
+# Evaluation
+evaluation:
+  num_episodes: 100
+  countdown_tests: 50
+  multiplication_tests: 50
