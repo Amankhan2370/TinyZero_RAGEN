@@ -28,6 +28,10 @@ astarpo:
   learning_rate: 1e-5
   max_grad_norm: 1.0
 
+# Algorithm selection: 'astarpo' or 'ragen'
+algorithm:
+  name: "ragen"
+
 # Training Configuration
 training:
   total_iterations: 1000
@@ -51,10 +55,14 @@ environments:
     operand_range: [10, 99]
     max_steps: 5
     require_reasoning: true
+  frozenlake:
+    env_name: "FrozenLake-v1"
+    is_slippery: false
+    num_episodes: 200
 
 # Distributed Training
 distributed:
-  use_fsdp: true
+  use_fsdp: false
   mixed_precision: true
   gradient_checkpointing: true
   sharding_strategy: "FULL_SHARD"
