@@ -7,15 +7,13 @@ image:
   build: .
 
 run:
-  # Command to run inside the container. Use `configs/smoke.yaml` for a cheap test.
-  cmd: bash -lc "./scripts/run_modal.sh configs/default.yaml"
-  # Request a single GPU (adjust instance type on modal to match availability/cost)
+  # Command to run inside the container. Default uses the smoke config to keep costs low.
+  cmd: bash -lc "./scripts/run_modal.sh configs/smoke.yaml"
+  # For smoke/development runs prefer CPU-only resources to avoid GPU spend.
   resources:
-    gpu: 1
-    # Optionally request a specific gpu type, e.g. v100, a100 (depends on modal offerings)
-    # gpu_type: "a100"
-    cpu: 4
-    memory: "32G"
+    gpu: 0
+    cpu: 1
+    memory: "4G"
 
 # Cost-control and timeouts (set before launching jobs on modal)
 # - Use `configs/smoke.yaml` for development.
