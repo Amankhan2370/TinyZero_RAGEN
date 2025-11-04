@@ -1,0 +1,84 @@
+# RTX 4090 Optimized Configuration - 100 iterations
+experiment:
+  name: "tinyzero_rtx4090_100iter"
+  seed: 42
+  log_dir: "./logs_rtx4090"
+  checkpoint_dir: "./checkpoints_rtx4090"
+  save_interval: 20  # Save every 20 iterations
+  eval_interval: 10   # Evaluate every 10 iterations
+
+# Model Architecture - Optimized for RTX 4090's 24GB VRAM
+model:
+  vocab_size: 32000
+  hidden_size: 768    # Larger than CPU config
+  num_layers: 12      # More layers for better learning
+  num_heads: 12
+  mlp_ratio: 4.0
+  dropout: 0.0
+  max_sequence_length: 512
+
+# A*PO Algorithm Configuration
+astarpo:
+  beta: 0.1
+  num_trajectories: 50   # Good balance for 100 iterations
+  num_completions: 16    # Can handle more with RTX 4090
+  advantage_clip: 1.0
+  gamma: 1.0
+  value_estimation_samples: 100
+  learning_rate: 5e-5
+  max_grad_norm: 1.0
+
+# Algorithm selection
+algorithm:
+  name: "ragen"
+
+# Training Configuration - 100 iterations
+training:
+  total_iterations: 100  # Exactly 100 iterations
+  batch_size: 32        # RTX 4090 can handle larger batches
+  gradient_accumulation_steps: 2
+  warmup_steps: 10
+  learning_rate: 5e-5
+  weight_decay: 0.01
+  max_trajectory_length: 20
+
+# Environment Configuration
+environments:
+  countdown:
+    target_range: [100, 1000]
+    number_range: [1, 100]
+    max_numbers: 6
+    max_steps: 10
+    allow_negatives: false
+    allow_fractions: false
+    
+  multiplication:
+    operand_range: [10, 99]
+    max_steps: 5
+    require_reasoning: true
+    
+  frozenlake:
+    env_name: "FrozenLake-v1"
+    is_slippery: false
+    num_episodes: 50
+
+# Distributed Training - Disabled for single GPU
+distributed:
+  use_fsdp: false
+  mixed_precision: true  # Enable for RTX 4090 performance
+  gradient_checkpointing: false
+  sharding_strategy: "NO_SHARD"
+  cpu_offload: false
+
+# Logging
+logging:
+  use_wandb: false
+  wandb_project: "tinyzero"
+  wandb_entity: null
+  log_interval: 5
+
+# Evaluation
+evaluation:
+  num_episodes: 20
+  countdown_tests: 10
+  multiplication_tests: 10

@@ -1,0 +1,33 @@
+# Python bytecode
+__pycache__/
+*.pyc
+
+# Logs and runtime artifacts
+*.log
+logs/
+logs_*/
+training_metrics.jsonl
+
+# Checkpoints and large binary artifacts
+checkpoints*/
+*.pt
+*.pth
+
+# Editor and OS files
+.spyproject/
+.vscode/
+.DS_Store
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# Archive files
+*.zip
+*.tar.gz
+*.tgz
+
+# Ignore Mac system files
+.AppleDouble
+.LSOverride

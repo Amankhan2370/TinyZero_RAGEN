@@ -1,0 +1,31 @@
+experiment:
+  name: "tinyzero_modal"
+  save_interval: 100
+  eval_interval: 50
+
+model:
+  vocab_size: 32000
+  hidden_size: 256  # Smaller for faster training
+  num_layers: 4
+  num_heads: 4
+  mlp_ratio: 2.0
+  dropout: 0.0
+
+astarpo:
+  beta: 0.1
+  num_trajectories: 25  # Reduced for speed
+  num_completions: 8    # Reduced for speed
+  learning_rate: 5e-5
+
+training:
+  total_iterations: 100  # Good enough for demo
+  batch_size: 8
+  learning_rate: 5e-5
+  weight_decay: 0.01
+
+algorithm:
+  name: "ragen"
+
+distributed:
+  use_fsdp: false
+  mixed_precision: true  # Important for GPU efficiency

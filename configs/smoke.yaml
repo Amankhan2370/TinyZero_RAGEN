@@ -1,0 +1,68 @@
+experiment:
+  name: "tinyzero_smoke"
+  seed: 42
+  log_dir: "./logs_smoke"
+  checkpoint_dir: "./checkpoints_smoke"
+  save_interval: 1
+  eval_interval: 1
+
+model:
+
+  vocab_size: 151936
+  hidden_size: 64
+  num_layers: 2
+  num_heads: 2
+  mlp_ratio: 2.0
+  dropout: 0.0
+
+astarpo:
+  beta: 0.1
+  num_trajectories: 4
+  num_completions: 4
+  advantage_clip: 1.0
+  gamma: 1.0
+  value_estimation_samples: 8
+  learning_rate: 1e-4
+  max_grad_norm: 1.0
+
+training:
+  total_iterations: 10  # Instead of 1
+  batch_size: 2
+  gradient_accumulation_steps: 1
+  warmup_steps: 1
+  weight_decay: 0.0
+  max_trajectory_length: 8
+
+environments:
+  countdown:
+    target_range: [10, 50]
+    number_range: [1, 20]
+    max_numbers: 4
+    max_steps: 5
+    allow_negatives: false
+    allow_fractions: false
+  multiplication:
+    operand_range: [2, 12]
+    max_steps: 2
+  frozenlake:
+    env_name: "FrozenLake-v1"
+    is_slippery: false
+
+distributed:
+  use_fsdp: false
+  mixed_precision: false
+  gradient_checkpointing: false
+  sharding_strategy: "NO_SHARD"
+  cpu_offload: false
+
+logging:
+  use_wandb: false
+  log_interval: 1
+
+evaluation:
+  num_episodes: 10
+  countdown_tests: 5
+  multiplication_tests: 5
+
+algorithm:
+  name: "ragen"

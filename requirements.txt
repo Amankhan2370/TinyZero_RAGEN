@@ -1,0 +1,19 @@
+# Core dependencies
+torch>=2.0.1
+transformers>=4.36.0
+numpy>=1.24.0
+pyyaml>=6.0.1
+tensorboard>=2.14.0
+accelerate>=0.25.0
+einops>=0.7.0
+dataclasses-json>=0.6.0
+
+# Training optimizations
+# NOTE: per the assignment minimalism requirement we avoid external training frameworks
+# like deepspeed or flash-attn. Keep only core PyTorch and minimal libs.
+
+# Utilities
+tqdm>=4.65.0
+wandb>=0.16.0
+omegaconf>=2.3.0
+gym>=0.26.0
